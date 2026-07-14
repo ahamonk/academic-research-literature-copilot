@@ -1,0 +1,29 @@
+# Python
+backend/venv/
+backend/__pycache__/
+**/__pycache__/
+*.pyc
+
+# Environment variables
+backend/.env
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Node
+frontend/node_modules/
+
+# Build folders
+frontend/dist/
+
+# Python cache
+.pytest_cache/
+
+# Database
+*.db
