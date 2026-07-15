@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import auth
+from app.api import auth, papers, search
 
 app = FastAPI(
     title="Academic Research Trend and Literature Review Copilot",
@@ -17,6 +17,8 @@ app.add_middleware(
 )
 
 app.include_router(auth.router)
+app.include_router(papers.router)
+app.include_router(search.router)
 
 
 @app.get("/health", tags=["Health"])
