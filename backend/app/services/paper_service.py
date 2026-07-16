@@ -73,3 +73,15 @@ def ingest_papers(db: Session, category: str, max_results: int) -> tuple[list[di
     _embed_and_store_papers(saved_papers)
 
     return fetched_papers, saved_papers
+
+
+def get_papers_by_arxiv_ids(db: Session, arxiv_ids: list[str]) -> dict[str, Paper]:
+    """
+    Look up multiple Paper rows by their arxiv_id in a single query,
+    returned as a dict keyed by arxiv_id for easy ordered lookup.
+    Used by the Fetcher Agent to hydrate ChromaDB's ranked arxiv_id list
+    with full PostgreSQL paper records (Postgres remains the source of
+    truth, same principle used in search_service.py).
+    """
+    papers = db.query(Paper).filter(Paper.arxiv_id.in_(arxiv_ids)).all()
+    return {p.arxiv_id: p for p in papers}

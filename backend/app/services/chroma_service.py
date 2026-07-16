@@ -9,10 +9,7 @@ _collection = None
 
 def _get_collection():
     """
-    Lazily create the ChromaDB client and collection on first use, rather
-    than at module import time. Matches the lazy-loading pattern already
-    used for the SentenceTransformer model in embedding_service.py, and
-    keeps app startup from paying this cost unconditionally.
+    Lazily create the ChromaDB client and collection on first use.
     """
     global _client, _collection
     if _collection is None:
@@ -53,15 +50,24 @@ def add_papers_to_chroma(papers: list[dict], embeddings: list[list[float]]) -> N
     )
 
 
-def query_similar_papers(query_embedding: list[float], top_k: int) -> dict:
+def query_similar_papers(query_embedding: list[float], top_k: int, where: dict | None = None) -> dict:
     """
     Query ChromaDB for the papers most similar to the given embedding.
+    `where` is an optional Chroma metadata filter (e.g. restricting results
+    to certain primary_category values) — used by the Fetcher Agent to
+    restrict semantic ranking to the user's selected research categories,
+    while reusing this exact same function that also powers /search.
     """
     collection = _get_collection()
-    return collection.query(
-        query_embeddings=[query_embedding],
-        n_results=top_k,
-    )
+
+    query_kwargs = {
+        "query_embeddings": [query_embedding],
+        "n_results": top_k,
+    }
+    if where:
+        query_kwargs["where"] = where
+
+    return collection.query(**query_kwargs)
 
 
 def get_all_embeddings() -> tuple[list[str], list[list[float]]]:

@@ -3,6 +3,7 @@ import Layout from '../components/Layout'
 import { useAuth } from '../context/AuthContext'
 import api from '../services/api'
 import ClusterMap from '../components/ClusterMap'
+import WeeklyReview from '../components/WeeklyReview'
 
 export default function Dashboard() {
   const { user } = useAuth()
@@ -29,17 +30,6 @@ export default function Dashboard() {
       setLoading(false)
     }
   }
-
-  const cards = [
-    {
-      title: 'Paper Library',
-      description: 'Browse papers ingested from arXiv for your subscribed topics.',
-    },
-    {
-      title: 'Weekly Literature Review',
-      description: 'Read the latest AI-generated review for each topic you follow.',
-    },
-  ]
 
   return (
     <Layout>
@@ -131,25 +121,20 @@ export default function Dashboard() {
 
       <ClusterMap />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {cards.map((card) => (
-          <div
-            key={card.title}
-            className="bg-white border border-gray-200 rounded-lg p-5 shadow-sm"
-          >
-            <h2 className="font-semibold text-gray-800 mb-2">
-              {card.title}
-            </h2>
+      <WeeklyReview />
 
-            <p className="text-sm text-gray-500">
-              {card.description}
-            </p>
+      <div className="bg-white border border-gray-200 rounded-lg p-5 shadow-sm">
+        <h2 className="font-semibold text-gray-800 mb-2">
+          Paper Library
+        </h2>
 
-            <span className="inline-block mt-4 text-xs text-gray-400">
-              Coming soon
-            </span>
-          </div>
-        ))}
+        <p className="text-sm text-gray-500">
+          Browse papers ingested from arXiv for your subscribed topics.
+        </p>
+
+        <span className="inline-block mt-4 text-xs text-gray-400">
+          Coming soon
+        </span>
       </div>
     </Layout>
   )
