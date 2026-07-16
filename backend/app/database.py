@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker, declarative_base
 
 from app.config import settings
@@ -15,3 +15,15 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+def run_startup_migrations():
+    """
+    Minimal, additive-only schema patch — adds new columns if they don't
+    already exist. Not a full migration system (no Alembic); appropriate
+    for a fast-moving 5-day project with a small, evolving schema.
+    """
+    with engine.begin() as conn:
+        conn.execute(
+            text("ALTER TABLE topics ADD COLUMN IF NOT EXISTS discipline VARCHAR(100)")
+        )

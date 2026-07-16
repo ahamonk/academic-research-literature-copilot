@@ -12,9 +12,22 @@ export default function Navbar() {
 
   return (
     <nav className="bg-white border-b border-gray-200 px-6 py-3 flex justify-between items-center">
-      <Link to="/" className="text-lg font-semibold text-gray-800">
-        Research Copilot
-      </Link>
+      <div className="flex items-center gap-6">
+        <Link to="/" className="text-lg font-semibold text-gray-800">
+          Research Copilot
+        </Link>
+
+        {user && (
+          <div className="flex items-center gap-4 text-sm">
+            <Link to="/dashboard" className="text-gray-600 hover:text-gray-900">
+              Dashboard
+            </Link>
+            <Link to="/research-interests" className="text-gray-600 hover:text-gray-900">
+              Research Interests
+            </Link>
+          </div>
+        )}
+      </div>
 
       {user && (
         <div className="flex items-center gap-4">

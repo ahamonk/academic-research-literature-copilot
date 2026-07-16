@@ -16,7 +16,7 @@ def fetch_papers_from_arxiv(category: str, max_results: int = 20) -> list[dict]:
         "max_results": max_results,
     }
 
-    response = requests.get(ARXIV_API_URL, params=params, timeout=15)
+    response = requests.get(ARXIV_API_URL, params=params, timeout=30)
     response.raise_for_status()
 
     feed = feedparser.parse(response.text)

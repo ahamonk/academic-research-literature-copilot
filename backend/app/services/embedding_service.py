@@ -1,17 +1,23 @@
-from sentence_transformers import SentenceTransformer
+import os
+
+os.environ.setdefault("HF_HUB_OFFLINE", "1")
 
 MODEL_NAME = "all-MiniLM-L6-v2"
 
-_model: SentenceTransformer | None = None
+_model = None
 
 
-def _get_model() -> SentenceTransformer:
+def _get_model():
     """
-    Lazily load the model once and reuse it across requests.
-    Avoids reloading the model (slow, memory-heavy) on every call.
+    Lazily import sentence-transformers and load the model on first use.
+    HF_HUB_OFFLINE=1 (set above) stops huggingface_hub from making a
+    network call to check for model updates on load — since the model
+    was already downloaded and cached locally in Day 2, this avoids a
+    potentially slow/hanging network check on every first use.
     """
     global _model
     if _model is None:
+        from sentence_transformers import SentenceTransformer
         _model = SentenceTransformer(MODEL_NAME)
     return _model
 
