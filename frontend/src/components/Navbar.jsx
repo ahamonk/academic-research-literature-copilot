@@ -25,6 +25,9 @@ export default function Navbar() {
             <Link to="/research-interests" className="text-gray-600 hover:text-gray-900">
               Research Interests
             </Link>
+            <Link to="/settings" className="text-gray-600 hover:text-gray-900">
+              Settings
+            </Link>
           </div>
         )}
       </div>

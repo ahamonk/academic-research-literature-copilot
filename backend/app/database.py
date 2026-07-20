@@ -19,11 +19,30 @@ def get_db():
 
 def run_startup_migrations():
     """
-    Minimal, additive-only schema patch — adds new columns if they don't
-    already exist. Not a full migration system (no Alembic); appropriate
-    for a fast-moving 5-day project with a small, evolving schema.
+    Minimal, additive-only schema patches — adds new columns if they
+    don't already exist. Not a full migration system (no Alembic);
+    appropriate for a fast-moving academic project with a small,
+    evolving schema.
     """
     with engine.begin() as conn:
         conn.execute(
             text("ALTER TABLE topics ADD COLUMN IF NOT EXISTS discipline VARCHAR(100)")
+        )
+        conn.execute(
+            text("ALTER TABLE users ADD COLUMN IF NOT EXISTS slack_connected BOOLEAN NOT NULL DEFAULT FALSE")
+        )
+        conn.execute(
+            text("ALTER TABLE users ADD COLUMN IF NOT EXISTS slack_enabled BOOLEAN NOT NULL DEFAULT FALSE")
+        )
+        conn.execute(
+            text("ALTER TABLE users ADD COLUMN IF NOT EXISTS slack_access_token VARCHAR")
+        )
+        conn.execute(
+            text("ALTER TABLE users ADD COLUMN IF NOT EXISTS slack_workspace_id VARCHAR")
+        )
+        conn.execute(
+            text("ALTER TABLE users ADD COLUMN IF NOT EXISTS slack_workspace_name VARCHAR")
+        )
+        conn.execute(
+            text("ALTER TABLE users ADD COLUMN IF NOT EXISTS slack_user_id VARCHAR")
         )

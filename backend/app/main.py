@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import auth, papers, search, topics, clusters, review
+from app.api import auth, papers, search, topics, clusters, review, slack, notifications
 from app.database import SessionLocal, run_startup_migrations
 from app.services.topic_service import seed_topics
 
@@ -24,6 +24,8 @@ app.include_router(search.router)
 app.include_router(topics.router)
 app.include_router(clusters.router)
 app.include_router(review.router)
+app.include_router(slack.router)
+app.include_router(notifications.router)
 
 
 @app.on_event("startup")

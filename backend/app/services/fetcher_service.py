@@ -16,7 +16,7 @@ def _get_user_topics(db: Session, user_id: int) -> list[Topic]:
     )
 
 
-def fetch_relevant_papers(db: Session, user_id: int, limit: int = 15) -> list[dict]:
+def fetch_relevant_papers(db: Session, user_id: int, limit: int = 5) -> list[dict]:
     """
     Fetcher Agent (semantic version).
 
@@ -31,12 +31,10 @@ def fetch_relevant_papers(db: Session, user_id: int, limit: int = 15) -> list[di
       4. Hydrates the ranked arxiv_id results with full PostgreSQL records
          (Postgres remains the source of truth for paper data).
 
-    The category restriction doubles as the "candidate papers from
-    PostgreSQL" step: since each paper's primary_category metadata in
-    Chroma was written from the same PostgreSQL row at ingestion time,
-    filtering Chroma by primary_category is equivalent to first pulling
-    candidate papers from Postgres by category and then ranking only
-    those — without a second round-trip or a separate vector index.
+    limit defaults to 5 (reduced from an earlier default of 15) to keep
+    the downstream Summarizer/Critic/Trend Analyst pipeline's total
+    number of sequential Groq calls manageable for interactive use and
+    for n8n's HTTP request timeout.
     """
     user_topics = _get_user_topics(db, user_id)
     if not user_topics:
