@@ -28,67 +28,68 @@ export default function WeeklyReview() {
   }
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-5 shadow-sm mb-8">
-      <div className="flex justify-between items-center mb-3">
-        <h2 className="font-semibold text-gray-800">
-          Weekly Literature Review
-        </h2>
+    <div className="mb-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+      <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="text-lg font-semibold text-slate-900">Weekly Literature Review</h2>
+          <p className="mt-1 text-sm text-slate-600">
+            Generate a concise synthesis of recent papers for your interests.
+          </p>
+        </div>
 
         <button
           onClick={handleGenerate}
           disabled={loading}
-          className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white text-sm font-medium px-4 py-2 rounded-md"
+          className="rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
         >
           {loading ? 'Generating...' : 'Generate Review'}
         </button>
       </div>
 
       {error && (
-        <p className="text-red-600 text-sm mb-3">
+        <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
           {error}
-        </p>
+        </div>
       )}
 
       {loading && (
-        <p className="text-sm text-gray-500">
-          Fetching papers, summarizing, reviewing, and analyzing trends — this may
-          take a moment...
-        </p>
+        <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-6 text-sm text-slate-500">
+          Fetching papers, summarizing, reviewing, and analyzing trends — this may take a moment...
+        </div>
       )}
 
       {!loading && hasGenerated && papers.length === 0 && !error && (
-        <p className="text-sm text-gray-500">
-          No papers found for your selected research interests yet. Try selecting
-          different topics or ingesting more papers.
-        </p>
+        <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-6 text-sm text-slate-500">
+          No papers found for your selected research interests yet. Try selecting different topics or ingesting more papers.
+        </div>
       )}
 
       {!loading && literatureReview && papers.length > 0 && (
         <>
-          <div className="border border-gray-200 rounded-md p-4 mb-4">
-            <p className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">
+          <div className="mb-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
+            <p className="whitespace-pre-wrap text-sm leading-7 text-slate-700">
               {literatureReview}
             </p>
           </div>
 
           {references.length > 0 && (
             <div className="mb-6">
-              <h3 className="text-sm font-semibold text-gray-700 mb-2">
+              <h3 className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
                 References
               </h3>
 
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-2">
                 {references.map((ref) => (
                   <div
                     key={ref.citation}
-                    className="text-sm text-gray-600"
+                    className="rounded-lg border border-slate-200 bg-white px-3 py-3 text-sm text-slate-600"
                   >
                     [{ref.citation}] {ref.title}{' '}
                     <a
                       href={ref.arxiv_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline text-xs"
+                      className="ml-1 text-xs font-medium text-blue-600 transition hover:text-blue-700"
                     >
                       View on arXiv →
                     </a>
@@ -98,26 +99,26 @@ export default function WeeklyReview() {
             </div>
           )}
 
-          <details>
-            <summary className="text-sm font-medium text-gray-600 cursor-pointer">
+          <details className="rounded-xl border border-slate-200 bg-white p-4">
+            <summary className="cursor-pointer text-sm font-medium text-slate-700">
               Individual paper summaries ({papers.length})
             </summary>
 
-            <div className="flex flex-col gap-4 mt-3">
+            <div className="mt-4 flex flex-col gap-4">
               {papers.map((paper, index) => (
                 <div
                   key={paper.arxiv_url || index}
-                  className="border border-gray-200 rounded-md p-4"
+                  className="rounded-xl border border-slate-200 bg-slate-50 p-4"
                 >
-                  <h4 className="font-medium text-gray-800">
+                  <h4 className="text-sm font-semibold text-slate-900">
                     [{paper.citation}] {paper.title}
                   </h4>
 
-                  <p className="text-xs text-gray-400 mt-1">
+                  <p className="mt-1 text-xs text-slate-400">
                     {paper.primary_category} · {paper.published_date}
                   </p>
 
-                  <p className="text-sm text-gray-700 mt-2">
+                  <p className="mt-3 text-sm leading-7 text-slate-700">
                     {paper.summary}
                   </p>
 
@@ -125,7 +126,7 @@ export default function WeeklyReview() {
                     href={paper.arxiv_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block text-xs text-blue-600 hover:underline mt-2"
+                    className="mt-3 inline-flex text-xs font-medium text-blue-600 transition hover:text-blue-700"
                   >
                     View on arXiv →
                   </a>
@@ -137,10 +138,9 @@ export default function WeeklyReview() {
       )}
 
       {!loading && !hasGenerated && !error && (
-        <p className="text-sm text-gray-500">
-          Click "Generate Review" to get an AI-generated weekly literature review
-          based on recent papers matching your research interests.
-        </p>
+        <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-6 text-sm text-slate-500">
+          Click "Generate Review" to get an AI-generated weekly literature review based on recent papers matching your research interests.
+        </div>
       )}
     </div>
   )

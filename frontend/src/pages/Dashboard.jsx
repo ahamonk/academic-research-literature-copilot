@@ -33,75 +33,89 @@ export default function Dashboard() {
 
   return (
     <Layout>
-      <h1 className="text-2xl font-semibold text-gray-800 mb-1">
-        Welcome{user?.full_name ? `, ${user.full_name}` : ''}
-      </h1>
+      <section className="mb-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-sm font-medium text-blue-600">Research workspace</p>
+            <h1 className="mt-1 text-3xl font-semibold tracking-tight text-slate-900">
+              Welcome{user?.full_name ? `, ${user.full_name}` : ''}
+            </h1>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              Here is a focused overview of your research copilot.
+            </p>
+          </div>
+          <div className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm text-slate-600">
+            Semantic search and review insights
+          </div>
+        </div>
+      </section>
 
-      <p className="text-gray-500 mb-8">
-        Here's an overview of your research copilot.
-      </p>
+      <section className="mb-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 className="text-lg font-semibold text-slate-900">Semantic Search</h2>
+            <p className="text-sm text-slate-600">
+              Search papers by meaning, not just keywords.
+            </p>
+          </div>
+        </div>
 
-      <div className="bg-white border border-gray-200 rounded-lg p-5 shadow-sm mb-8">
-        <h2 className="font-semibold text-gray-800 mb-3">
-          Semantic Search
-        </h2>
-
-        <form onSubmit={handleSearch} className="flex gap-2 mb-4">
+        <form onSubmit={handleSearch} className="mb-5 flex flex-col gap-3 sm:flex-row">
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search papers by meaning, not just keywords..."
-            className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
           />
 
           <button
             type="submit"
             disabled={loading}
-            className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white text-sm font-medium px-4 py-2 rounded-md"
+            className="rounded-xl bg-blue-600 px-4 py-3 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
           >
             {loading ? 'Searching...' : 'Search'}
           </button>
         </form>
 
         {error && (
-          <p className="text-red-600 text-sm mb-4">
+          <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
             {error}
-          </p>
+          </div>
         )}
 
         {hasSearched && !loading && results.length === 0 && !error && (
-          <p className="text-sm text-gray-500">
+          <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-6 text-sm text-slate-500">
             No matching papers found.
-          </p>
+          </div>
         )}
 
         {results.length > 0 && (
-          <div className="max-h-[500px] overflow-y-auto flex flex-col gap-3">
+          <div className="flex max-h-[520px] flex-col gap-3 overflow-y-auto pr-1">
             {results.map((paper) => (
               <div
                 key={paper.arxiv_id}
-                className="border border-gray-200 rounded-md p-4"
+                className="rounded-xl border border-slate-200 bg-slate-50 p-4 transition-shadow hover:shadow-sm"
               >
-                <div className="flex justify-between items-start gap-3">
-                  <h3 className="font-medium text-gray-800">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                  <h3 className="text-sm font-semibold text-slate-900">
                     {paper.title}
                   </h3>
 
-                  <span className="text-xs text-gray-400 whitespace-nowrap">
+                  <span className="whitespace-nowrap text-xs font-medium text-blue-600">
                     {(paper.similarity_score * 100).toFixed(1)}% match
                   </span>
                 </div>
 
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="mt-2 text-xs text-slate-500">
                   {paper.authors}
                 </p>
 
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="mt-1 text-xs text-slate-400">
                   {paper.primary_category} · {paper.published_date}
                 </p>
 
-                <p className="text-sm text-gray-600 mt-2">
+                <p className="mt-3 text-sm leading-6 text-slate-600">
                   {paper.abstract}
                 </p>
 
@@ -109,7 +123,7 @@ export default function Dashboard() {
                   href={paper.arxiv_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block text-xs text-blue-600 hover:underline mt-2"
+                  className="mt-3 inline-flex text-xs font-medium text-blue-600 transition hover:text-blue-700"
                 >
                   View on arXiv →
                 </a>
@@ -117,25 +131,12 @@ export default function Dashboard() {
             ))}
           </div>
         )}
-      </div>
+      </section>
 
       <ClusterMap />
 
       <WeeklyReview />
 
-      <div className="bg-white border border-gray-200 rounded-lg p-5 shadow-sm">
-        <h2 className="font-semibold text-gray-800 mb-2">
-          Paper Library
-        </h2>
-
-        <p className="text-sm text-gray-500">
-          Browse papers ingested from arXiv for your subscribed topics.
-        </p>
-
-        <span className="inline-block mt-4 text-xs text-gray-400">
-          Coming soon
-        </span>
-      </div>
     </Layout>
   )
 }

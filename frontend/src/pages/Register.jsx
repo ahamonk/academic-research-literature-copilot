@@ -23,55 +23,80 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-lg shadow-sm border border-gray-200 w-full max-w-sm"
-      >
-        <h1 className="text-xl font-semibold mb-6 text-gray-800">Create an account</h1>
+    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-10">
+      <div className="grid w-full max-w-5xl overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="hidden bg-slate-900 p-10 text-white lg:flex lg:flex-col lg:justify-between">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-300">
+              New account
+            </p>
+            <h1 className="mt-4 text-3xl font-semibold tracking-tight">
+              Create your research dashboard profile.
+            </h1>
+            <p className="mt-3 max-w-sm text-sm leading-6 text-slate-300">
+              Set up your preferences and start building a tailored literature workflow.
+            </p>
+          </div>
+          <div className="text-sm text-slate-400">
+            Lightweight, professional research planning.
+          </div>
+        </div>
 
-        {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
+        <div className="p-8 sm:p-10">
+          <form onSubmit={handleSubmit} className="mx-auto w-full max-w-sm">
+            <h2 className="text-2xl font-semibold tracking-tight text-slate-900">Create an account</h2>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              Join the workspace to track topics, reviews, and paper discovery.
+            </p>
 
-        <label className="block text-sm text-gray-600 mb-1">Full name</label>
-        <input
-          type="text"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-          className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+            {error && (
+              <div className="mt-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                {error}
+              </div>
+            )}
 
-        <label className="block text-sm text-gray-600 mb-1">Email</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+            <label className="mt-5 block text-sm font-medium text-slate-700">Full name</label>
+            <input
+              type="text"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              className="mt-2 w-full rounded-xl border border-slate-300 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
+            />
 
-        <label className="block text-sm text-gray-600 mb-1">Password</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className="w-full border border-gray-300 rounded-md px-3 py-2 mb-6 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+            <label className="mt-4 block text-sm font-medium text-slate-700">Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="mt-2 w-full rounded-xl border border-slate-300 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
+            />
 
-        <button
-          type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 rounded-md"
-        >
-          Register
-        </button>
+            <label className="mt-4 block text-sm font-medium text-slate-700">Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="mt-2 w-full rounded-xl border border-slate-300 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
+            />
 
-        <p className="text-sm text-gray-500 mt-4 text-center">
-          Already have an account?{' '}
-          <Link to="/login" className="text-blue-600 hover:underline">
-            Log in
-          </Link>
-        </p>
-      </form>
+            <button
+              type="submit"
+              className="mt-6 w-full rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700"
+            >
+              Register
+            </button>
+
+            <p className="mt-5 text-center text-sm text-slate-600">
+              Already have an account?{' '}
+              <Link to="/login" className="font-medium text-blue-600 transition hover:text-blue-700">
+                Log in
+              </Link>
+            </p>
+          </form>
+        </div>
+      </div>
     </div>
   )
 }

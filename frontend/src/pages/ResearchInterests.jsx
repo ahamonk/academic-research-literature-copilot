@@ -58,36 +58,53 @@ export default function ResearchInterests() {
 
   return (
     <Layout>
-      <h1 className="text-2xl font-semibold text-gray-800 mb-1">Research Interests</h1>
-      <p className="text-gray-500 mb-8">
-        Choose the topics you want papers and weekly reviews for.
-      </p>
+      <section className="mb-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Research Interests</h1>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              Choose the topics you want papers and weekly reviews for.
+            </p>
+          </div>
+          <div className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm text-slate-600">
+            {selectedIds.length} selected
+          </div>
+        </div>
+      </section>
 
-      {loading && <p className="text-sm text-gray-500">Loading topics...</p>}
-      {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
+      {loading && (
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-500 shadow-sm">
+          Loading topics...
+        </div>
+      )}
+      {error && (
+        <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {error}
+        </div>
+      )}
 
       {!loading && (
-        <div className="bg-white border border-gray-200 rounded-lg p-5 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
           {Object.entries(groupedTopics).map(([discipline, disciplineTopics]) => (
             <div key={discipline} className="mb-6">
-              <h2 className="text-sm font-semibold text-gray-700 mb-3 border-b border-gray-200 pb-1">
+              <h2 className="mb-3 border-b border-slate-200 pb-2 text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
                 {discipline}
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {disciplineTopics.map((topic) => (
                   <label
                     key={topic.id}
-                    className="flex items-center gap-2 text-sm text-gray-700 border border-gray-200 rounded-md px-3 py-2 cursor-pointer hover:bg-gray-50"
+                    className="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 px-3 py-3 text-sm text-slate-700 transition hover:border-blue-200 hover:bg-slate-50"
                   >
                     <input
                       type="checkbox"
                       checked={selectedIds.includes(topic.id)}
                       onChange={() => toggleTopic(topic.id)}
-                      className="h-4 w-4"
+                      className="mt-1 h-4 w-4 rounded border-slate-300 text-blue-600"
                     />
                     <span>
                       {topic.name}{' '}
-                      <span className="text-gray-400 text-xs">({topic.code})</span>
+                      <span className="text-xs text-slate-400">({topic.code})</span>
                     </span>
                   </label>
                 ))}
@@ -95,12 +112,16 @@ export default function ResearchInterests() {
             </div>
           ))}
 
-          {message && <p className="text-green-600 text-sm mb-3 mt-2">{message}</p>}
+          {message && (
+            <div className="mb-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+              {message}
+            </div>
+          )}
 
           <button
             onClick={handleSave}
             disabled={saving}
-            className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white text-sm font-medium px-4 py-2 rounded-md"
+            className="rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
           >
             {saving ? 'Saving...' : 'Save'}
           </button>
